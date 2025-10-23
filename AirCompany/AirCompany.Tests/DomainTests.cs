@@ -2,8 +2,15 @@
 
 namespace AirCompany.Tests;
 
+/// <summary>
+/// Юнит-тесты для проверки корректности работы доменной модели авиакомпании, используется статический датасет из DataSeeder
+/// </summary>
 public class DomainTests(DataSeeder seeder): IClassFixture<DataSeeder>
 {
+    /// <summary>
+    /// Проверяет, что топ-5 рейсов по количеству пассажиров возвращается корректно
+    /// Сравниваются Id рейсов и порядок по количеству билетов
+    /// </summary>
     [Fact]
     public void Top5FlightsByPassengerCount_ShouldReturnCorrectFlights()
     {
@@ -18,6 +25,10 @@ public class DomainTests(DataSeeder seeder): IClassFixture<DataSeeder>
         Assert.Equal(expectedIds, [.. top5.Select(f => f.Id)]);
     }
 
+    /// <summary>
+    /// Проверяет, что список рейсов с минимальной продолжительностью полета возвращается корректно
+    /// Сравниваются Id рейсов и значение Duration
+    /// </summary>
     [Fact]
     public void FlightsWithMinimalDuration_ShouldReturnAllMinDurationFlights()
     {
@@ -32,9 +43,17 @@ public class DomainTests(DataSeeder seeder): IClassFixture<DataSeeder>
         Assert.Equal(expectedIds, [.. flights.Select(f => f.Id).OrderBy(id => id)]);
     }
 
+    /// <summary>
+    /// Проверяет, что пассажиры с нулевым багажом на указанном рейсе возвращаются
+    /// и сортируются по ФИО
+    /// Использует [Theory] для проверки разных FlightId
+    /// </summary>
     [Theory]
     [InlineData(1)]
     [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
     public void PassengersWithZeroBaggage_OnFlight_ShouldReturnSortedByFullName(int flightId)
     {
         var passengers = seeder.Tickets
@@ -49,12 +68,19 @@ public class DomainTests(DataSeeder seeder): IClassFixture<DataSeeder>
         {
             1 => [1, 4, 7],
             2 => [15, 9, 12],
+            3 => [17, 19],
+            4 => [2, 5],
+            5 => [7],
             _ => new List<int>()
         };
 
         Assert.Equal(expectedPassengerIds, [.. passengers.Select(p => p!.Id)]);
     }
 
+    /// <summary>
+    /// Проверяет, что все рейсы заданной модели самолета в указанном периоде возвращаются корректно
+    /// Сравниваются Id рейсов и соответствие датам
+    /// </summary>
     [Fact]
     public void FlightsByAircraftModelInPeriod_ShouldReturnCorrectFlights()
     {
@@ -73,6 +99,10 @@ public class DomainTests(DataSeeder seeder): IClassFixture<DataSeeder>
         Assert.Equal(expectedIds, [.. flights.Select(f => f.Id).OrderBy(id => id)]);
     }
 
+    /// <summary>
+    /// Проверяет, что все рейсы, вылетающие из указанного пункта отправления в указанный пункт прибытия, возвращаются корректно
+    /// Сравниваются Id рейсов и соответствие аэропортам
+    /// </summary>
     [Fact]
     public void FlightsFromTo_ShouldReturnCorrectFlights()
     {

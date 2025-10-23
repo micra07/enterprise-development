@@ -2,14 +2,40 @@
 
 namespace AirCompany.Domain.Data;
 
+/// <summary>
+/// Класс для заполнения тестового датасета авиакомпании, содержит списки всех сущностей доменной модели и методы для их инициализации
+/// </summary>
 public class DataSeeder
 {
+    /// <summary>
+    /// Список семейств самолетов
+    /// </summary>
     public List<AircraftFamily> AircraftFamilies { get; private set; } = [];
+
+    /// <summary>
+    /// Список моделей самолетов
+    /// </summary>
     public List<AircraftModel> AircraftModels { get; private set; } = [];
+
+    /// <summary>
+    /// Список авиарейсов
+    /// </summary>
     public List<Flight> Flights { get; private set; } = [];
+
+    /// <summary>
+    /// Список пассажиров
+    /// </summary>
     public List<Passenger> Passengers { get; private set; } = [];
+
+    /// <summary>
+    /// Список билетов
+    /// </summary>
     public List<Ticket> Tickets { get; private set; } = [];
 
+    /// <summary>
+    /// Конструктор заполняет все списки тестовыми данными и устанавливает обратные связи
+    /// между билетами, пассажирами и рейсами
+    /// </summary>
     public DataSeeder()
     {
         SeedAircraftFamilies();
@@ -25,6 +51,9 @@ public class DataSeeder
         }
     }
 
+    /// <summary>
+    /// Заполнение списка семейств самолетов
+    /// </summary>
     private void SeedAircraftFamilies()
     {
         AircraftFamilies.AddRange(
@@ -42,6 +71,9 @@ public class DataSeeder
             ]);
     }
 
+    /// <summary>
+    /// Заполнение списка моделей самолетов
+    /// </summary>
     private void SeedAircraftModels()
     {
         AircraftModels.AddRange(
@@ -144,6 +176,9 @@ public class DataSeeder
         }
     }
 
+    /// <summary>
+    /// Заполнение списка авиарейсов
+    /// </summary>
     private void SeedFlights()
     {
         Flights.AddRange(
@@ -266,6 +301,9 @@ public class DataSeeder
         }
     }
 
+    /// <summary>
+    /// Заполнение списка пассажиров
+    /// </summary>
     private void SeedPassengers()
     {
         Passengers.AddRange(
@@ -394,7 +432,9 @@ public class DataSeeder
 
     }
 
-
+    /// <summary>
+    /// Заполнение списка билетов
+    /// </summary>
     private void SeedTickets()
     {
         Tickets.Add(new Ticket { 
