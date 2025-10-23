@@ -10,7 +10,7 @@ public class DataSeeder
     public List<Passenger> Passengers { get; private set; } = [];
     public List<Ticket> Tickets { get; private set; } = [];
 
-    public void Seed()
+    public DataSeeder()
     {
         SeedAircraftFamilies();
         SeedAircraftModels();
