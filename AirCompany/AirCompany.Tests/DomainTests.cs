@@ -12,7 +12,7 @@ public class DomainTests(DataSeeder seeder): IClassFixture<DataSeeder>
     /// Сравниваются Id рейсов и порядок по количеству билетов
     /// </summary>
     [Fact]
-    public void Top5FlightsByPassengerCount_ShouldReturnCorrectFlights()
+    public void GetTopFlightsByPassengerCount_WhenCalled_ReturnsTop5Flights()
     {
         var expectedIds = new List<int> { 1, 2, 3, 4, 5 };
         var top5 = seeder.Flights
@@ -21,7 +21,6 @@ public class DomainTests(DataSeeder seeder): IClassFixture<DataSeeder>
             .ToList();
 
         Assert.Equal(5, top5.Count);
-        Assert.True(top5[0].Tickets!.Count >= top5[4].Tickets!.Count);
         Assert.Equal(expectedIds, [.. top5.Select(f => f.Id)]);
     }
 
@@ -30,16 +29,15 @@ public class DomainTests(DataSeeder seeder): IClassFixture<DataSeeder>
     /// Сравниваются Id рейсов и значение Duration
     /// </summary>
     [Fact]
-    public void FlightsWithMinimalDuration_ShouldReturnAllMinDurationFlights()
+    public void GetFlightsWithMinimalDuration_WhenFlightsExist_ReturnsAllWithMinDuration()
     {
         var expectedIds = new List<int> { 3, 6, 8, 9 };
-        var minDuration = seeder.Flights.Min(f => f.Duration ?? TimeSpan.MaxValue);
+        var minDuration = seeder.Flights.Where(f => f.Duration != null).Min(f => f.Duration);
         var flights = seeder.Flights
             .Where(f => f.Duration == minDuration)
             .ToList();
 
         Assert.NotEmpty(flights);
-        Assert.All(flights, f => Assert.Equal(minDuration, f.Duration));
         Assert.Equal(expectedIds, [.. flights.Select(f => f.Id).OrderBy(id => id)]);
     }
 
@@ -54,16 +52,8 @@ public class DomainTests(DataSeeder seeder): IClassFixture<DataSeeder>
     [InlineData(3)]
     [InlineData(4)]
     [InlineData(5)]
-    public void PassengersWithZeroBaggage_OnFlight_ShouldReturnSortedByFullName(int flightId)
+    public void GetPassengersByFlight_WhenBaggageWeightIsZero_ReturnsSortedByFullName(int flightId)
     {
-        var passengers = seeder.Tickets
-            .Where(t => t.FlightId == flightId && (t.BaggageWeight ?? 0) == 0)
-            .Select(t => t.Passenger)
-            .OrderBy(p => p!.FullName)
-            .ToList();
-
-        Assert.All(passengers, p => Assert.True(p != null));
-
         var expectedPassengerIds = flightId switch
         {
             1 => [1, 4, 7],
@@ -73,7 +63,13 @@ public class DomainTests(DataSeeder seeder): IClassFixture<DataSeeder>
             5 => [7],
             _ => new List<int>()
         };
+        var passengers = seeder.Tickets
+            .Where(t => t.FlightId == flightId && (t.BaggageWeight ?? 0) == 0)
+            .Select(t => t.Passenger)
+            .OrderBy(p => p!.FullName)
+            .ToList();
 
+        Assert.All(passengers, p => Assert.True(p != null));
         Assert.Equal(expectedPassengerIds, [.. passengers.Select(p => p!.Id)]);
     }
 
@@ -82,7 +78,7 @@ public class DomainTests(DataSeeder seeder): IClassFixture<DataSeeder>
     /// Сравниваются Id рейсов и соответствие датам
     /// </summary>
     [Fact]
-    public void FlightsByAircraftModelInPeriod_ShouldReturnCorrectFlights()
+    public void GetFlightsByAircraftModel_WhenWithinSpecifiedPeriod_ReturnsMatchingFlights()
     {
         var modelId = 5;
         var expectedIds = new List<int> { 4, 5 };
@@ -104,7 +100,7 @@ public class DomainTests(DataSeeder seeder): IClassFixture<DataSeeder>
     /// Сравниваются Id рейсов и соответствие аэропортам
     /// </summary>
     [Fact]
-    public void FlightsFromTo_ShouldReturnCorrectFlights()
+    public void GetFlightsByRoute_WhenDepartureAndArrivalMatch_ReturnsCorrectFlights()
     {
         var departure = "Moscow";
         var arrival = "London";
@@ -113,7 +109,8 @@ public class DomainTests(DataSeeder seeder): IClassFixture<DataSeeder>
             .Where(f => f.DepartureAirport == departure && f.ArrivalAirport == arrival)
             .ToList();
 
-        Assert.NotEmpty(flights);
+        Assert.Single(flights);
+
         Assert.All(flights, f =>
         {
             Assert.Equal(departure, f.DepartureAirport);

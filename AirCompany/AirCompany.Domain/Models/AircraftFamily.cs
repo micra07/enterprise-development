@@ -23,5 +23,5 @@ public class AircraftFamily
     /// <summary>
     /// Список моделей, принадлежащих этому семейству
     /// </summary>
-    public List<AircraftModel>? Models { get; set; } = [];
+    public List<AircraftModel> Models { get; set; } = [];
 }

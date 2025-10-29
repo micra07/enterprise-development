@@ -53,5 +53,5 @@ public class Flight
     /// <summary>
     /// Список билетов, купленных на данный рейс
     /// </summary>
-    public List<Ticket>? Tickets { get; set; } = [];
+    public List<Ticket> Tickets { get; set; } = [];
 }

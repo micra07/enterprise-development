@@ -43,5 +43,5 @@ public class AircraftModel
     /// <summary>
     /// Список рейсов, выполняемых на данной модели самолета
     /// </summary>
-    public List<Flight>? Flights { get; set; } = [];
+    public List<Flight> Flights { get; set; } = [];
 }

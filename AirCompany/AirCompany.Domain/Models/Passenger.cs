@@ -28,5 +28,5 @@ public class Passenger
     /// <summary>
     /// Список билетов, купленных пассажиром
     /// </summary>
-    public List<Ticket>? Tickets { get; set; } = [];
+    public List<Ticket> Tickets { get; set; } = [];
 }
