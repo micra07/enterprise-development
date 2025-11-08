@@ -46,7 +46,7 @@ public class TicketRepository(AirCompanyDbContext context) : IRepository<Ticket,
     /// </summary>
     /// <returns>Список объектов <see cref="Ticket"/></returns>
     public async Task<IList<Ticket>> GetAllAsync() =>
-        await context.Tickets.ToListAsync();
+        await context.Tickets.Include(t => t.Passenger).ToListAsync();
 
     /// <summary>
     /// Асинхронно получает билет по идентификатору

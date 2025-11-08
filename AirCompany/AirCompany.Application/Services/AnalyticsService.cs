@@ -11,12 +11,12 @@ namespace AirCompany.Application.Services;
 /// Сервис аналитики авиакомпании
 /// Выполняет запросы для получения информации о рейсах и пассажирах
 /// </summary>
-public class AnalyticsService(IRepository<Flight, int> repository, IMapper mapper) : IAnalyticsService
+public class AnalyticsService(IRepository<Flight, int> flightRepository, IRepository<Ticket, int> ticketRepository, IMapper mapper) : IAnalyticsService
 {
     /// <inheritdoc/>
     public async Task<IList<FlightDto>> GetFlightsByAircraftModelInPeriod(int aircraftModelId, DateTime startTime, DateTime endTime)
     {
-        var flights = await repository.GetAllAsync();
+        var flights = await flightRepository.GetAllAsync();
         var result = flights
             .Where(f => f.AircraftModelId == aircraftModelId
                         && f.DepartureDate >= startTime
@@ -30,7 +30,7 @@ public class AnalyticsService(IRepository<Flight, int> repository, IMapper mappe
     /// <inheritdoc/>
     public async Task<IList<FlightDto>> GetFlightsByRoute(string departure, string arrival)
     {
-        var flights = await repository.GetAllAsync();
+        var flights = await flightRepository.GetAllAsync();
         var result = flights
             .Where(f => f.DepartureAirport == departure && f.ArrivalAirport == arrival)
             .OrderBy(f => f.Id)
@@ -42,7 +42,7 @@ public class AnalyticsService(IRepository<Flight, int> repository, IMapper mappe
     /// <inheritdoc/>
     public async Task<IList<FlightDto>> GetFlightsWithMinimalDuration()
     {
-        var flights = await repository.GetAllAsync();
+        var flights = await flightRepository.GetAllAsync();
         var minDuration = flights.Where(f => f.Duration != null).Min(f => f.Duration);
         var result = flights
             .Where(f => f.Duration == minDuration)
@@ -55,16 +55,17 @@ public class AnalyticsService(IRepository<Flight, int> repository, IMapper mappe
     /// <inheritdoc/>
     public async Task<IList<PassengerDto>> GetPassengersByFlight(int flightId)
     {
-        var flights = await repository.GetAllAsync();
-        var flight = flights.FirstOrDefault(f => f.Id == flightId)
-                     ?? throw new KeyNotFoundException($"Flight {flightId} not found");
+        var tickets = await ticketRepository.GetAllAsync();
 
-        var passengers = flight.Tickets?
-            .Where(t => (t.BaggageWeight ?? 0) == 0)
+        var passengers = tickets
+            .Where(t => t.FlightId == flightId && (t.BaggageWeight ?? 0) == 0)
             .Select(t => t.Passenger)
             .Where(p => p != null)
             .OrderBy(p => p!.FullName)
-            .ToList() ?? [];
+            .ToList();
+
+        if (passengers.Count == 0)
+            throw new KeyNotFoundException($"Flight {flightId} not found or no passengers without baggage");
 
         return mapper.Map<List<PassengerDto>>(passengers);
     }
@@ -72,7 +73,7 @@ public class AnalyticsService(IRepository<Flight, int> repository, IMapper mappe
     /// <inheritdoc/>
     public async Task<IList<FlightDto>> GetTopFlightsByPassengerCount()
     {
-        var flights = await repository.GetAllAsync();
+        var flights = await flightRepository.GetAllAsync();
         var top5 = flights
             .OrderByDescending(f => f.Tickets?.Count ?? 0)
             .Take(5)

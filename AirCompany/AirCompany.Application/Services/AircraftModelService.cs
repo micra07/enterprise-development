@@ -42,7 +42,7 @@ public class AircraftModelService(IRepository<AircraftModel, int> repository, IM
         var entity = await repository.GetAsync(dtoId) ?? throw new KeyNotFoundException($"Entity with ID: {dtoId} not found");
 
         mapper.Map(dto, entity);
-        var result = repository.UpdateAsync(entity);
+        var result = await repository.UpdateAsync(entity);
 
         return mapper.Map<AircraftModelDto>(result);
     }

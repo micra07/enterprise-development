@@ -1,5 +1,10 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-builder.AddProject<Projects.AirCompany_Api_Host>("aircompany-api-host");
+var mysql = builder.AddMySql("mysql-aircompany")
+    .AddDatabase("AirCompanyDb");
+
+var api = builder.AddProject<Projects.AirCompany_Api_Host>("api")
+    .WithReference(mysql, "AirCompanyDatabase")
+    .WaitFor(mysql);
 
 builder.Build().Run();

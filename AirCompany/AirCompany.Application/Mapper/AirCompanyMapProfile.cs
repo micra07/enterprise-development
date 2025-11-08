@@ -8,12 +8,15 @@ using AutoMapper;
 
 namespace AirCompany.Application.Mapper;
 
+/// <summary>
+/// Конфигурация для маппинга контрактов и доменных сущностей
+/// </summary>
 public class AirCompanyMapProfile : Profile
 {
     public AirCompanyMapProfile()
     {
         CreateMap<AircraftFamily, AircraftFamilyDto>();
-        CreateMap<AircraftFamily, AircraftFamilyDto>();
+        CreateMap<AircraftFamilyCreateUpdateDto, AircraftFamily>();
 
         CreateMap<AircraftModel, AircraftModelDto>();
         CreateMap<AircraftModelCreateUpdateDto, AircraftModel>();
