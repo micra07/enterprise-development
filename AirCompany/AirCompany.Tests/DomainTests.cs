@@ -15,7 +15,7 @@ public class DomainTests(DataSeeder seeder): IClassFixture<DataSeeder>
     public void GetTopFlightsByPassengerCount_WhenCalled_ReturnsTop5Flights()
     {
         var expectedIds = new List<int> { 1, 2, 3, 4, 5 };
-        var top5 = seeder.Flights
+        var top5 = DataSeeder.Flights
             .OrderByDescending(f => f.Tickets!.Count)
             .Take(5)
             .ToList();
@@ -32,8 +32,8 @@ public class DomainTests(DataSeeder seeder): IClassFixture<DataSeeder>
     public void GetFlightsWithMinimalDuration_WhenFlightsExist_ReturnsAllWithMinDuration()
     {
         var expectedIds = new List<int> { 3, 6, 8, 9 };
-        var minDuration = seeder.Flights.Where(f => f.Duration != null).Min(f => f.Duration);
-        var flights = seeder.Flights
+        var minDuration = DataSeeder.Flights.Where(f => f.Duration != null).Min(f => f.Duration);
+        var flights = DataSeeder.Flights
             .Where(f => f.Duration == minDuration)
             .ToList();
 
@@ -63,7 +63,7 @@ public class DomainTests(DataSeeder seeder): IClassFixture<DataSeeder>
             5 => [7],
             _ => new List<int>()
         };
-        var passengers = seeder.Tickets
+        var passengers = DataSeeder.Tickets
             .Where(t => t.FlightId == flightId && (t.BaggageWeight ?? 0) == 0)
             .Select(t => t.Passenger)
             .OrderBy(p => p!.FullName)
@@ -85,7 +85,7 @@ public class DomainTests(DataSeeder seeder): IClassFixture<DataSeeder>
         var start = new DateTime(2025, 10, 27);
         var end = new DateTime(2025, 10, 29);
 
-        var flights = seeder.Flights
+        var flights = DataSeeder.Flights
             .Where(f => f.AircraftModelId == modelId
                         && f.DepartureDate >= start
                         && f.DepartureDate <= end)
@@ -105,7 +105,7 @@ public class DomainTests(DataSeeder seeder): IClassFixture<DataSeeder>
         var departure = "Moscow";
         var arrival = "London";
 
-        var flights = seeder.Flights
+        var flights = DataSeeder.Flights
             .Where(f => f.DepartureAirport == departure && f.ArrivalAirport == arrival)
             .ToList();
 

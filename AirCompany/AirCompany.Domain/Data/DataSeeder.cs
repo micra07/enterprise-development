@@ -10,7 +10,7 @@ public class DataSeeder
     /// <summary>
     /// Список семейств самолетов
     /// </summary>
-    public List<AircraftFamily> AircraftFamilies { get; private set; } = 
+    public static List<AircraftFamily> AircraftFamilies { get; private set; } = 
     [
         new AircraftFamily { Id = 1,  Name = "Family-1",  Manufacturer = "Airbus" },
         new AircraftFamily { Id = 2,  Name = "Family-2",  Manufacturer = "Boeing" },
@@ -27,7 +27,7 @@ public class DataSeeder
     /// <summary>
     /// Список моделей самолетов
     /// </summary>
-    public List<AircraftModel> AircraftModels { get; private set; } = 
+    public static List<AircraftModel> AircraftModels { get; private set; } = 
     [
         new AircraftModel 
         {
@@ -124,7 +124,7 @@ public class DataSeeder
     /// <summary>
     /// Список авиарейсов
     /// </summary>
-    public List<Flight> Flights { get; private set; } = 
+    public static List<Flight> Flights { get; private set; } = 
     [
         new Flight 
         {
@@ -241,7 +241,7 @@ public class DataSeeder
     /// <summary>
     /// Список пассажиров
     /// </summary>
-    public List<Passenger> Passengers { get; private set; } = 
+    public static List<Passenger> Passengers { get; private set; } = 
     [
         new Passenger
         {
@@ -388,7 +388,7 @@ public class DataSeeder
     /// <summary>
     /// Список билетов
     /// </summary>
-    public List<Ticket> Tickets { get; private set; } = 
+    public static List<Ticket> Tickets { get; private set; } = 
     [
         new Ticket 
         {

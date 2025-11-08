@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36616.10 d17.14
+VisualStudioVersion = 17.14.36616.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirCompany.Domain", "AirCompany.Domain\AirCompany.Domain.csproj", "{480B8777-0DCE-413C-BC45-F2AB10AC687A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirCompany.Tests", "AirCompany.Tests\AirCompany.Tests.csproj", "{8522A245-7F5E-4597-A859-71F621D5CA37}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirCompany.Infrastructure", "AirCompany.Infrastructure\AirCompany.Infrastructure.csproj", "{53138B71-205E-447F-9DC6-3F0824A64E06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{8522A245-7F5E-4597-A859-71F621D5CA37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8522A245-7F5E-4597-A859-71F621D5CA37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8522A245-7F5E-4597-A859-71F621D5CA37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53138B71-205E-447F-9DC6-3F0824A64E06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53138B71-205E-447F-9DC6-3F0824A64E06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53138B71-205E-447F-9DC6-3F0824A64E06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53138B71-205E-447F-9DC6-3F0824A64E06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
