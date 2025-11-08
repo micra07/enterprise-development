@@ -9,6 +9,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirCompany.Tests", "AirComp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirCompany.Infrastructure", "AirCompany.Infrastructure\AirCompany.Infrastructure.csproj", "{53138B71-205E-447F-9DC6-3F0824A64E06}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirCompany.Api.Host", "AirCompany.Api.Host\AirCompany.Api.Host.csproj", "{5ADF76D8-CF28-7DA2-974B-E0BC7ED0FB0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirCompany.AppHost", "AirCompany.AppHost\AirCompany.AppHost.csproj", "{E3AE3DEB-C0EF-4571-A3A1-922CAB2188E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirCompany.ServiceDefaults", "AirCompany.ServiceDefaults\AirCompany.ServiceDefaults.csproj", "{0C4C9084-8DD9-2A95-EEE6-8D2DE8A56147}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirCompany.Application", "AirCompany.Application\AirCompany.Application.csproj", "{54743692-844E-48E0-97B2-0EBC94E27D87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirCompany.Application.Contracts", "AirCompany.Application.Contracts\AirCompany.Application.Contracts.csproj", "{1FA5BBF1-2941-44A7-9044-A2F68BFD4454}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +37,26 @@ Global
 		{53138B71-205E-447F-9DC6-3F0824A64E06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53138B71-205E-447F-9DC6-3F0824A64E06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53138B71-205E-447F-9DC6-3F0824A64E06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5ADF76D8-CF28-7DA2-974B-E0BC7ED0FB0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ADF76D8-CF28-7DA2-974B-E0BC7ED0FB0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ADF76D8-CF28-7DA2-974B-E0BC7ED0FB0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ADF76D8-CF28-7DA2-974B-E0BC7ED0FB0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3AE3DEB-C0EF-4571-A3A1-922CAB2188E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3AE3DEB-C0EF-4571-A3A1-922CAB2188E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3AE3DEB-C0EF-4571-A3A1-922CAB2188E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3AE3DEB-C0EF-4571-A3A1-922CAB2188E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C4C9084-8DD9-2A95-EEE6-8D2DE8A56147}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C4C9084-8DD9-2A95-EEE6-8D2DE8A56147}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C4C9084-8DD9-2A95-EEE6-8D2DE8A56147}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C4C9084-8DD9-2A95-EEE6-8D2DE8A56147}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54743692-844E-48E0-97B2-0EBC94E27D87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54743692-844E-48E0-97B2-0EBC94E27D87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54743692-844E-48E0-97B2-0EBC94E27D87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54743692-844E-48E0-97B2-0EBC94E27D87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FA5BBF1-2941-44A7-9044-A2F68BFD4454}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FA5BBF1-2941-44A7-9044-A2F68BFD4454}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FA5BBF1-2941-44A7-9044-A2F68BFD4454}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FA5BBF1-2941-44A7-9044-A2F68BFD4454}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
