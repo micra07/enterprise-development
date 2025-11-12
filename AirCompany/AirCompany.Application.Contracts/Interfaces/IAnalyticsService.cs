@@ -15,7 +15,7 @@ public interface IAnalyticsService
     /// <returns>
     /// Список объектов <see cref="FlightDto"/>, отсортированных по количеству пассажиров в порядке убывания
     /// </returns>
-    public Task<IList<FlightDto>> GetTopFlightsByPassengerCount();
+    public Task<IList<FlightsWithPassengersCountDto>> GetTopFlightsByPassengerCount();
 
     /// <summary>
     /// Возвращает список рейсов с минимальной продолжительностью полёта

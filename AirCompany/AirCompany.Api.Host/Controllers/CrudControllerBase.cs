@@ -119,16 +119,15 @@ public class CrudControllerBase<TDto, TCreateUpdateDto, TKey>(
     /// Удалить запись по идентификатору
     /// </summary>
     [HttpDelete("{id}")]
-    [ProducesResponseType(200)]
     [ProducesResponseType(204)]
     [ProducesResponseType(500)]
     public async Task<ActionResult> Delete(TKey id)
     {
         try
         {
-            var result = await appService.Delete(id);
+            await appService.Delete(id);
             logger.LogInformation("Deleted item {Id} in {Controller}", id, GetType().Name);
-            return result ? Ok() : NoContent();
+            return NoContent();
         }
         catch (Exception ex)
         {

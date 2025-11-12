@@ -1,11 +1,12 @@
 ﻿using AirCompany.Domain.Data;
+using AirCompany.Tests.Fixtures;
 
 namespace AirCompany.Tests;
 
 /// <summary>
-/// Юнит-тесты для проверки корректности работы доменной модели авиакомпании, используется статический датасет из DataSeeder
+/// Юнит-тесты для проверки корректности работы доменной модели авиакомпании, используется статический датасет из DataSeeder через AirCompanyFixture
 /// </summary>
-public class DomainTests(DataSeeder seeder): IClassFixture<DataSeeder>
+public class DomainTests(AirCompanyFixture fixture): IClassFixture<AirCompanyFixture>
 {
     /// <summary>
     /// Проверяет, что топ-5 рейсов по количеству пассажиров возвращается корректно
@@ -15,7 +16,7 @@ public class DomainTests(DataSeeder seeder): IClassFixture<DataSeeder>
     public void GetTopFlightsByPassengerCount_WhenCalled_ReturnsTop5Flights()
     {
         var expectedIds = new List<int> { 1, 2, 3, 4, 5 };
-        var top5 = DataSeeder.Flights
+        var top5 = fixture.Flights
             .OrderByDescending(f => f.Tickets!.Count)
             .Take(5)
             .ToList();
@@ -32,8 +33,8 @@ public class DomainTests(DataSeeder seeder): IClassFixture<DataSeeder>
     public void GetFlightsWithMinimalDuration_WhenFlightsExist_ReturnsAllWithMinDuration()
     {
         var expectedIds = new List<int> { 3, 6, 8, 9 };
-        var minDuration = DataSeeder.Flights.Where(f => f.Duration != null).Min(f => f.Duration);
-        var flights = DataSeeder.Flights
+        var minDuration = fixture.Flights.Where(f => f.Duration != null).Min(f => f.Duration);
+        var flights = fixture.Flights
             .Where(f => f.Duration == minDuration)
             .ToList();
 
@@ -63,7 +64,7 @@ public class DomainTests(DataSeeder seeder): IClassFixture<DataSeeder>
             5 => [7],
             _ => new List<int>()
         };
-        var passengers = DataSeeder.Tickets
+        var passengers = fixture.Tickets
             .Where(t => t.FlightId == flightId && (t.BaggageWeight ?? 0) == 0)
             .Select(t => t.Passenger)
             .OrderBy(p => p!.FullName)
@@ -85,7 +86,7 @@ public class DomainTests(DataSeeder seeder): IClassFixture<DataSeeder>
         var start = new DateTime(2025, 10, 27);
         var end = new DateTime(2025, 10, 29);
 
-        var flights = DataSeeder.Flights
+        var flights = fixture.Flights
             .Where(f => f.AircraftModelId == modelId
                         && f.DepartureDate >= start
                         && f.DepartureDate <= end)
@@ -105,7 +106,7 @@ public class DomainTests(DataSeeder seeder): IClassFixture<DataSeeder>
         var departure = "Moscow";
         var arrival = "London";
 
-        var flights = DataSeeder.Flights
+        var flights = fixture.Flights
             .Where(f => f.DepartureAirport == departure && f.ArrivalAirport == arrival)
             .ToList();
 

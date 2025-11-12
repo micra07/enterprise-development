@@ -64,21 +64,37 @@ public class AnalyticsService(IRepository<Flight, int> flightRepository, IReposi
             .OrderBy(p => p!.FullName)
             .ToList();
 
-        if (passengers.Count == 0)
-            throw new KeyNotFoundException($"Flight {flightId} not found or no passengers without baggage");
-
         return mapper.Map<List<PassengerDto>>(passengers);
     }
 
     /// <inheritdoc/>
-    public async Task<IList<FlightDto>> GetTopFlightsByPassengerCount()
+    public async Task<IList<FlightsWithPassengersCountDto>> GetTopFlightsByPassengerCount()
     {
         var flights = await flightRepository.GetAllAsync();
+        var tickets = await ticketRepository.GetAllAsync();
+
+        var flightPassengerCounts = tickets
+            .GroupBy(t => t.FlightId)
+            .Select(g => new
+            {
+                FlightId = g.Key,
+                PassengerCount = g.Count()
+            })
+            .ToDictionary(x => x.FlightId, x => x.PassengerCount);
+
         var top5 = flights
-            .OrderByDescending(f => f.Tickets?.Count ?? 0)
+            .Select(f => new
+            {
+                Flight = f,
+                PassengerCount = flightPassengerCounts.GetValueOrDefault(f.Id, 0)
+            })
+            .OrderByDescending(x => x.PassengerCount)
             .Take(5)
             .ToList();
 
-        return mapper.Map<List<FlightDto>>(top5);
+        return [.. top5
+            .Select(x => new FlightsWithPassengersCountDto(
+                mapper.Map<FlightDto>(x.Flight),
+                x.PassengerCount))];
     }
 }

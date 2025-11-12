@@ -23,7 +23,7 @@ public class AnalyticsController(
     [HttpGet("top-flights")]
     [ProducesResponseType(typeof(IList<FlightDto>), 200)]
     [ProducesResponseType(500)]
-    public async Task<ActionResult<IList<FlightDto>>> GetTopFlightsByPassengerCount()
+    public async Task<ActionResult<IList<FlightsWithPassengersCountDto>>> GetTopFlightsByPassengerCount()
     {
         try
         {
@@ -60,7 +60,7 @@ public class AnalyticsController(
     }
 
     /// <summary>
-    /// Получить пассажиров рейса
+    /// Получить пассажиров рейса, вес багажа которых равен нулю
     /// </summary>
     /// <param name="flightId">Идентификатор рейса</param>
     [HttpGet("passengers/{flightId:int}")]

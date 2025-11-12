@@ -752,34 +752,4 @@ public class DataSeeder
             PassengerId = 20,
         },
     ];
-
-    /// <summary>
-    /// Конструктор устанавливает связи между сущностями
-    /// </summary>
-    public DataSeeder()
-    {
-        AircraftModels.ForEach(model =>
-            model.AircraftFamily = AircraftFamilies.First(fam => fam.Id == model.AircraftFamilyId));
-
-        AircraftFamilies.ForEach(fam =>
-            fam.Models.AddRange(AircraftModels.Where(model => model.AircraftFamilyId == fam.Id)));
-
-        Flights.ForEach(flight =>
-            flight.AircraftModel = AircraftModels.First(model => model.Id == flight.AircraftModelId));
-
-        AircraftModels.ForEach(model =>
-            model.Flights.AddRange(Flights.Where(flight => flight.AircraftModelId == model.Id)));
-
-        Tickets.ForEach(ticket =>
-            ticket.Flight = Flights.First(flight => flight.Id == ticket.FlightId));
-
-        Flights.ForEach(flight =>
-            flight.Tickets.AddRange(Tickets.Where(ticket => ticket.FlightId == flight.Id)));
-
-        Tickets.ForEach(ticket =>
-            ticket.Passenger = Passengers.First(pass => pass.Id == ticket.PassengerId));
-
-        Passengers.ForEach(pass =>
-            pass.Tickets.AddRange(Tickets.Where(ticket => ticket.PassengerId == pass.Id)));
-    }
 }
