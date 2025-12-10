@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aspire.NATS.Net" Version="9.5.2" />
     <PackageReference Include="AutoMapper" Version="15.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.10">
       <PrivateAssets>all</PrivateAssets>
@@ -19,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AirCompany.Application.Contracts\AirCompany.Application.Contracts.csproj" />
     <ProjectReference Include="..\AirCompany.Application\AirCompany.Application.csproj" />
+    <ProjectReference Include="..\AirCompany.Infrastructure.Nats\AirCompany.Infrastructure.Nats.csproj" />
     <ProjectReference Include="..\AirCompany.Infrastructure\AirCompany.Infrastructure.csproj" />
     <ProjectReference Include="..\AirCompany.ServiceDefaults\AirCompany.ServiceDefaults.csproj" />
   </ItemGroup>

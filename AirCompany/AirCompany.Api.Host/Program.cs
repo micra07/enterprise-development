@@ -9,6 +9,7 @@ using AirCompany.Application.Services;
 using AirCompany.Domain.Interfaces;
 using AirCompany.Domain.Models;
 using AirCompany.Infrastructure;
+using AirCompany.Infrastructure.Nats;
 using AirCompany.Infrastructure.Repositories;
 using AirCompany.ServiceDefaults;
 using Microsoft.EntityFrameworkCore;
@@ -51,6 +52,9 @@ builder.Services.AddSwaggerGen(c =>
             c.IncludeXmlComments(xmlPath);
     }
 });
+
+builder.Services.AddHostedService<AirCompanyNatsConsumer>();
+builder.AddNatsClient("aircompany-nats");
 
 builder.AddMySqlDbContext<AirCompanyDbContext>(connectionName: "AirCompanyDatabase");
 
