@@ -103,3 +103,51 @@ GetFlightsByRoute_WhenDepartureAndArrivalMatch_ReturnsCorrectFlights - поис�
 - Все операции с сущностями, аналитикой и CRUD выполняются через репозитории
 - Настроен AutoMapper для преобразования сущностей в DTO и обратно
 - Подключён и настроен оркестратор Aspire для совместного запуска приложения и базы данных, не используя локальные подключения
+
+## Лабораторная работа 4: Интеграция NATS JetStream и генератор сообщений
+
+### Структура решения и изменения по проектам
+
+#### AirCompany.Generator.Nats.Host:
+Отдельный сервис генератор который создаёт тестовые билеты и отправляет их в NATS JetStream батчами
+
+Файлы
+- `AirCompanyNatsProducer.cs`  
+  Реализация продюсера `IProducerService` который публикует батчи `TicketCreateUpdateDto` в NATS JetStream
+- `Program.cs`  
+  Конфигурация веб сервиса и DI регистрация зависимостей для генератора и продюсера
+- `TicketGenerator.cs`  
+  Генерация тестовых данных через Bogus и формирование списка `TicketCreateUpdateDto`
+- `Controllers/GeneratorController.cs`  
+  Endpoint который принимает параметры генерации, запускает генерацию батчей и вызывает отправку через `IProducerService`
+
+#### AirCompany.Infrastructure.Nats:
+Инфраструктурный слой для работы с NATS со стороны API включая чтение сообщений и десериализацию полезной нагрузки
+
+Файлы
+- `AirCompanyNatsConsumer.cs`  
+  BackgroundService который подключается к NATS JetStream, создаёт consumer для stream и читает сообщения; Для каждого сообщения десериализует payload в список DTO и создаёт тикеты через `IApplicationService`
+- `Deserializers/TicketPayloadDeserializer.cs`  
+  Десериализатор JSON payload из `ReadOnlySequence<byte>` в `IList<TicketCreateUpdateDto>`
+
+#### AirCompany.Api.Host:
+Изменения
+- `Program.cs` был дополнен для регистрации и запуска NATS consumer как фоновой службы  
+  Consumer работает параллельно с REST API и принимает сообщения из JetStream для записи данных в MySQL
+
+#### AirCompany.AppHost:
+Изменения
+- `AppHost.cs` был дополнен конфигурацией инфраструктуры NATS JetStream и подключением проектов
+
+Добавлено
+- NATS с JetStream и monitoring endpoint на 8222
+- NATS NUI как UI контейнер
+- Параметры `NatsLogin`, `NatsPassword`, `NatsStream`, `NatsSubject`
+- Прокидывание `Nats:StreamName` и `Nats:SubjectName` в `aircompany-generator-nats-host` и `api`
+
+## Параметры и конфигурация
+Используются параметры оркестратора Aspire
+- `NatsLogin` логин для подключения к NATS
+- `NatsPassword` пароль для подключения к NATS
+- `NatsStream` имя JetStream stream
+- `NatsSubject` subject для публикации и чтения сообщений
