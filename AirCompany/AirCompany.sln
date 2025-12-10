@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirCompany.Application.Cont
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirCompany.Infrastructure.Nats", "AirCompany.Infrastructure.Nats\AirCompany.Infrastructure.Nats.csproj", "{365BFF92-05E1-4C3F-B388-EAD97EF46E59}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirCompany.Generator.Nats.Host", "AirCompany.Generator.Nats.Host\AirCompany.Generator.Nats.Host.csproj", "{92D0621A-895F-483B-B41B-AB13E144F458}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{365BFF92-05E1-4C3F-B388-EAD97EF46E59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{365BFF92-05E1-4C3F-B388-EAD97EF46E59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{365BFF92-05E1-4C3F-B388-EAD97EF46E59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92D0621A-895F-483B-B41B-AB13E144F458}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92D0621A-895F-483B-B41B-AB13E144F458}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92D0621A-895F-483B-B41B-AB13E144F458}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92D0621A-895F-483B-B41B-AB13E144F458}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

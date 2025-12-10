@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AirCompany.Api.Host\AirCompany.Api.Host.csproj" />
+    <ProjectReference Include="..\AirCompany.Generator.Nats.Host\AirCompany.Generator.Nats.Host.csproj" />
   </ItemGroup>
 
 </Project>

@@ -49,18 +49,19 @@ public class AirCompanyNatsConsumer(
 
             var context = connection.CreateJetStreamContext();
 
+            await context.CreateOrUpdateStreamAsync(new StreamConfig(_streamName, [_subjectName]), stoppingToken);
+
+            logger.LogInformation("Creating consumer for a stream {stream} and subject {subject}", _streamName, _subjectName);
+
             var consumer = await context.CreateConsumerAsync(
                 _streamName,
                 new ConsumerConfig
                 {
                     DeliverPolicy = ConsumerConfigDeliverPolicy.All,
-                    AckPolicy = ConsumerConfigAckPolicy.Explicit,
-                    FilterSubject = _subjectName
+                    AckPolicy = ConsumerConfigAckPolicy.Explicit
                 },
                 stoppingToken
             );
-
-            logger.LogInformation("Creating consumer for a stream {stream} and subject {subject}", _streamName, _subjectName);
 
             await foreach (var message in consumer.ConsumeAsync(new TicketPayloadDeserializer(), cancellationToken: stoppingToken))
             {
@@ -73,12 +74,15 @@ public class AirCompanyNatsConsumer(
                 foreach (var ticket in message.Data)
                     await ticketService.Create(ticket);
 
+                await message.AckAsync(cancellationToken: stoppingToken);
+
                 logger.LogInformation("Successfully consumed message from subject {subject} of stream {stream}", _subjectName, _streamName);
             }
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Exception occured during receiving contracts from {stream}/{subect}", _streamName, _subjectName);
+            logger.LogError(ex, "Consumer failed to start stream={stream} subject={subject} message={message}",
+                _streamName, _subjectName, ex.Message);
         }
     }
 }

@@ -18,6 +18,12 @@ builder.AddContainer("aircompany-nui", "ghcr.io/nats-nui/nui")
 var natsStream = builder.AddParameter("NatsStream");
 var natsSubject = builder.AddParameter("NatsSubject");
 
+builder.AddProject<Projects.AirCompany_Generator_Nats_Host>("aircompany-generator-nats-host")
+    .WithReference(nats)
+    .WaitFor(nats)
+    .WithEnvironment("Nats:StreamName", natsStream)
+    .WithEnvironment("Nats:SubjectName", natsSubject);
+
 builder.AddProject<Projects.AirCompany_Api_Host>("api")
     .WithReference(mysql, "AirCompanyDatabase")
     .WaitFor(mysql)
