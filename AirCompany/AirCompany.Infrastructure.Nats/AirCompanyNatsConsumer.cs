@@ -1,13 +1,14 @@
 ﻿using AirCompany.Application.Contracts.Dtos.Tickets;
-using Microsoft.Extensions.Configuration;
+using AirCompany.Application.Contracts.Interfaces;
+using AirCompany.Infrastructure.Nats.Deserializers;
+using AirCompany.Infrastructure.Nats.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using NATS.Client.Core;
 using NATS.Client.JetStream.Models;
 using NATS.Net;
-using AirCompany.Application.Contracts.Interfaces;
-using AirCompany.Infrastructure.Nats.Deserializers;
 
 namespace AirCompany.Infrastructure.Nats;
 
@@ -23,19 +24,19 @@ namespace AirCompany.Infrastructure.Nats;
 public class AirCompanyNatsConsumer(
     INatsConnection connection,
     IServiceScopeFactory scopeFactory,
-    IConfiguration configuration,
+    IOptions<NatsOptions> options,
     ILogger<AirCompanyNatsConsumer> logger
 ) : BackgroundService
 {
     /// <summary>
-    /// Имя stream берётся из конфигурации Nats:StreamName
+    /// Имя stream берётся из настроек
     /// </summary>
-    private readonly string _streamName = configuration.GetSection("Nats")["StreamName"] ?? throw new KeyNotFoundException("StreamName section of Nats is missing");
+    private readonly string _streamName = options.Value.StreamName;
 
     /// <summary>
-    /// Имя subject берётся из конфигурации Nats:SubjectName
+    /// Имя subject берётся из настроек
     /// </summary>
-    private readonly string _subjectName = configuration.GetSection("Nats")["SubjectName"] ?? throw new KeyNotFoundException("SubjectName section of Nats is missing");
+    private readonly string _subjectName = options.Value.SubjectName;
 
     /// <summary>
     /// Основной цикл работы службы

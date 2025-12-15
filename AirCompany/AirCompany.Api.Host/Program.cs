@@ -10,11 +10,19 @@ using AirCompany.Domain.Interfaces;
 using AirCompany.Domain.Models;
 using AirCompany.Infrastructure;
 using AirCompany.Infrastructure.Nats;
+using AirCompany.Infrastructure.Nats.Options;
 using AirCompany.Infrastructure.Repositories;
 using AirCompany.ServiceDefaults;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services
+    .AddOptions<NatsOptions>()
+    .Bind(builder.Configuration.GetSection(NatsOptions.SectionName))
+    .Validate(o => !string.IsNullOrWhiteSpace(o.StreamName), "Nats:StreamName is required")
+    .Validate(o => !string.IsNullOrWhiteSpace(o.SubjectName), "Nats:SubjectName is required")
+    .ValidateOnStart();
 
 builder.AddServiceDefaults();
 

@@ -1,8 +1,16 @@
 using AirCompany.Generator.Nats.Host;
 using AirCompany.Generator.Nats.Host.Interfaces;
+using AirCompany.Generator.Nats.Host.Options;
 using AirCompany.ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services
+    .AddOptions<NatsOptions>()
+    .Bind(builder.Configuration.GetSection(NatsOptions.SectionName))
+    .Validate(o => !string.IsNullOrWhiteSpace(o.StreamName), "Nats:StreamName is required")
+    .Validate(o => !string.IsNullOrWhiteSpace(o.SubjectName), "Nats:SubjectName is required")
+    .ValidateOnStart();
 
 builder.AddServiceDefaults();
 

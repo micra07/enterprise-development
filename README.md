@@ -149,5 +149,5 @@ GetFlightsByRoute_WhenDepartureAndArrivalMatch_ReturnsCorrectFlights - поис�
 Используются параметры оркестратора Aspire
 - `NatsLogin` логин для подключения к NATS
 - `NatsPassword` пароль для подключения к NATS
-- `NatsStream` имя JetStream stream
-- `NatsSubject` subject для публикации и чтения сообщений
+- `NatsStream` имя JetStream stream, парсится в Producer и Consumer через IOptions
+- `NatsSubject` subject для публикации и чтения сообщений, парсится в Producer и Consumer через IOptions

@@ -1,5 +1,7 @@
 ﻿using AirCompany.Application.Contracts.Dtos.Tickets;
 using AirCompany.Generator.Nats.Host.Interfaces;
+using AirCompany.Generator.Nats.Host.Options;
+using Microsoft.Extensions.Options;
 using NATS.Client.Core;
 using NATS.Client.JetStream.Models;
 using NATS.Net;
@@ -13,20 +15,20 @@ namespace AirCompany.Generator.Nats.Host;
 /// При вызове SendAsync подключается к NATS, гарантирует наличие stream для subject и публикует батч в subject в формате JSON
 /// </summary>
 public class AirCompanyNatsProducer(
-    IConfiguration configuration,
+    IOptions<NatsOptions> options,
     INatsConnection connection,
     ILogger<AirCompanyNatsProducer> logger
 ) : IProducerService
 {
     /// <summary>
-    /// Имя stream берётся из конфигурации Nats:StreamName
+    /// Имя stream берётся из настроек
     /// </summary>
-    private readonly string _streamName = configuration.GetSection("Nats")["StreamName"] ?? throw new KeyNotFoundException("StreamName section of Nats is missing");
+    private readonly string _streamName = options.Value.StreamName;
 
     /// <summary>
-    /// Имя subject берётся из конфигурации Nats:SubjectName
+    /// Имя subject берётся из настроек
     /// </summary>
-    private readonly string _subjectName = configuration.GetSection("Nats")["SubjectName"] ?? throw new KeyNotFoundException("SubjectName section of Nats is missing");
+    private readonly string _subjectName = options.Value.SubjectName;
 
     /// <inheritdoc/>
     public async Task SendAsync(IList<TicketCreateUpdateDto> batch)
